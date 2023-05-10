@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+			body { margin: 0; }
+		</style>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script src="https://www.desmos.com/api/v1.8/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+        <script>
+             MathJax = {
+                tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+            };
+        </script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        
+      <script type="module" crossorigin src="/assets/index-e0d42822.js"></script>
+      <link rel="stylesheet" href="/assets/index-2d110b43.css">
+    </head>
+    <body>
+        <div id="panel-board">
+            <div class="panel panel-info extend-panel-anim">
+                <h3>Calculus Final Project</h3>
+                <span>By Jaiden Grimminck</span>
+            </div>
+            <div class="panel panel-options extend-panel-anim">
+                <button onclick="toggleGraph()">Open 2D Graph</button><br/>
+                <button onclick="window.toggleWireframe()">Toggle Wireframe</button><br/>
+                <button onclick="window.axisEnabled = !window.axisEnabled;">Toggle Axis</button><br/>
+                <button onclick="nextSlide()">Start Presentation</button>
+            </div>
+            <div class="panel panel-sliders extend-panel-anim">
+                <span>Elongate Distances</span>
+                <input type="range" value="0" min="0" max="100" id="distance-between-percentage">
+                <span>Seperate Parts</span>
+                <input type="range" value="0" min="0" max="100" id="distance-x-axis">
+            </div>
+        </div>
+        <div id="slides">
+            <div class="slide">
+                <div class="slide-content">
+                    <h1>Object</h1>
+                    <p>
+                        For this project, my object was a cylinder-like object. I am unsure of its use, but it is a very interesting object.
+                    </p>
+                    <img src="/assets/object-df402e33.jpg" width="189px" height="252px">
+                </div>
+            </div>
+            <div class="slide">
+                <div class="slide-content">
+                    <h1>2D Area Model</h1>
+                    <p>
+                        For this object, lines can be used to outline it with accuracy.
+                        Due to the perspective, the outline is shifted to lines and parabolic curves, making a more complicated shape.
+                        The real graph is solely lines except for a small curve found by the neck, but the parabolic curves are used to make it look more accurate to the image.
+                    </p>
+                    <button onclick="toggleGraph()">Open Graph</button>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="slide-content">
+                    <h1>3D Model</h1>
+                    <p>
+                        In the 3D model, I made it using 5 different cylinders.
+                        I used 3 cylinders for the main body, and 2 for the ends.
+                        I also used a disk for the curve near the "neck" of the object.
+                        There are two different ways to evaluate it - the more complicated way, using the outline of the object, or using the actual representations
+                        of the object. The more complicated way is actually less accurate, but it's more math intensive and interesting.
+                        Using the acutal representations of the object is more accurate, which is why I'll solve for both.
+                    </p>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="slide-content">
+                    <h1>Image-Accurate Representation</h1>
+                    <p>
+                        In the graph, we can see that the object is rotated around the y-axis, and the crossections have a height of delta y.
+                        We can then create our integrals in respect to y, and then solve for the volume.
+                        This model is only accurate to the image, and assumes it's a solid object. This is using disc method.
+                    </p>
+                    <p id="image-accurate">
+                        \( Loading... \)
+                    </p>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="slide-content">
+                    <h1>Real Representation</h1>
+                    <p>
+                        Using the real represntations, we can make the following formula to calculate for the volume.
+                        Due to the holes being different sizes and heights from the outside, we can simplify it down by making the holes all of their own 
+                        expressions, and all of the outside of the object its own expression - the washer method, but in multiple integrals.
+                        Once we calculate each of the volumes, we can subtract the holes from the outside to get the final volume.
+                        This is essentially $r_{outer} - r_{inner}$, but with multiple outer radii and inner radii.
+                        This can be proved with the following expressions, with $r_{inner}$ and $r_{outer}$ being some expression, and $a$ and $b$ being the bounds.
+                    </p>
+                    <p>
+                        \( 
+                            \begin{align}
+                                \pi \int_{a}^{b} (r_{outer}^2 - r_{inner}^2) dy \\
+                                = \pi ( \int_{a}^{b} r_{outer}^2 dy + \int_{a}^{b} -(r_{inner})^2 dy ) \\
+                                = \pi \int_{a}^{b} r_{outer}^2 dy - \pi \int_{a}^{b} r_{inner}^2 dy \\
+                            \end{align}
+                        \)
+                    </p>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="slide-content">
+                    <h1>Further Proof</h1>
+                    <p>
+                        We can also prove that the washer method works with a hole of different bounds. 
+                        Assume $a$ and $b$ are the bounds of the outer radius, and $c$ and $d$ are the bounds of the inner radius.
+                        Also assume that:
+                        \( a \le c \le d \le b \). Using the disc method, we can get the solid part of the shapes that has no hole, then add the bit with the hole, calculated using the washer method. 
+                        Using what we proved on the previous slide, we can find the following:
+                    </p>
+                    <p>
+                        \begin{align}
+                            \pi \int_{a}^{c} r_{outer}^2 dy + \pi \int_{c}^{d} (r_{outer}^2 - r_{inner}^2) dy + \pi \int_{d}^{b} r_{outer}^2 dy \\
+                            = \pi \int_{a}^{c} r_{outer}^2 dy + \pi \int_{c}^{d} r_{outer}^2 dy - \pi \int_{c}^{d} r_{inner}^2 dy + \pi \int_{d}^{b} r_{outer}^2 dy \\
+                            = \pi \int_{a}^{b} r_{outer}^2 dy - \pi \int_{c}^{d} r_{inner}^2 dy \\
+                        \end{align}
+                    </p>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="slide-content">
+                    <h1>Real Representation</h1>
+                    <p>
+                        Using that proof, we can make the following formula to calculate for the volume.
+                    </p>
+                    <p id="real-expressions">
+                        \( Loading... \)
+                    </p>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="slide-content">
+                    <h1>Identifying Intergration Strategies</h1>
+                    <p>
+                        For the integral by hand, we'll be intergrating the following intergral:
+                    </p>
+                    
+                </div>
+            </div>
+            <div class="slide">
+                <div class="slide-content">
+                    <h1>Closing</h1>
+                    <p>
+                        
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div id="graph">
+            <div id="calc-parent" class="graph-parent graph-hidden">
+                <button style="width: 95.15vw; height: 5vh;" onclick="toggleGraph()">←</button>
+                <div id="calculator" style="width: 95vw; height: 90vh;"></div>
+            </div>
+        </div>
+        <script src="/expressions.js"></script>
+        
+        
+        <script>
+            var elt = document.getElementById('calculator');
+            var calculator = Desmos.GraphingCalculator(elt);
+
+            window.calculator = calculator;
+
+            setTimeout(() => {
+                createRealExpressions();
+                addToDesmos();
+            }, 100)
+
+            let graphShowing = false;
+
+            function toggleGraph() {
+                //if (!Object.keys(window).includes("graphShowing")) return;
+
+                graphShowing = !graphShowing;
+
+                document.getElementById("calc-parent").classList.toggle("graph-hidden");
+            }
+        </script>
+        
+        <script src="/slides.js"></script>
+    </body>
+</html>
